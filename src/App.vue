@@ -16,8 +16,11 @@ export default {
     Range
   },
   setup() {
+    // ref 把数据变成响应式的
     const state = ref(data);
-    provide('config', config); // 将组件的配置直接传值
+
+    // 将组件的配置直接传值
+    provide('config', config);
 
     const formData = ref({
       username: 'zfjg',
