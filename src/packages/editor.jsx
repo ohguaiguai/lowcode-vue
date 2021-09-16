@@ -15,7 +15,7 @@ export default defineComponent({
     modelValue: { type: Object },
     formData: { type: Object }
   },
-  emits: ['update:modelValue'], // 要触发的时间
+  emits: ['update:modelValue'], // 要触发的事件
   setup(props, ctx) {
     // 预览的时候 内容不能在操作了 ，可以点击 输入内容 方便看效果
     const previewRef = ref(false);
@@ -29,6 +29,7 @@ export default defineComponent({
         ctx.emit('update:modelValue', deepcopy(newValue));
       }
     });
+
     const containerStyles = computed(() => ({
       width: data.value.container.width + 'px',
       height: data.value.container.height + 'px'
@@ -36,7 +37,9 @@ export default defineComponent({
 
     const config = inject('config');
 
+    // 拖拽的目标容器
     const containerRef = ref(null);
+
     // 1.实现菜单的拖拽功能
     const { dragstart, dragend } = useMenuDragger(containerRef, data);
 
@@ -49,8 +52,10 @@ export default defineComponent({
       clearBlockFocus
     } = useFocus(data, previewRef, (e) => {
       // 获取焦点后进行拖拽
+      // 回调执行是能够拿到 mousedown事件的
       mousedown(e);
     });
+
     // 2.实现组件拖拽
     let { mousedown, markLine } = useBlockDragger(
       focusData,
@@ -59,6 +64,7 @@ export default defineComponent({
     );
 
     const { commands } = useCommand(data, focusData); // []
+
     const buttons = [
       { label: '撤销', icon: 'icon-back', handler: () => commands.undo() },
       { label: '重做', icon: 'icon-forward', handler: () => commands.redo() },
@@ -199,6 +205,7 @@ export default defineComponent({
           {/** ========================= 左侧物料区 ========================= */}
           <div class="editor-left">
             {/* 根据注册列表 渲染对应的内容  可以实现h5的拖拽*/}
+            {/* draggable 属性 */}
             {config.componentList.map((component) => (
               <div
                 class="editor-left-item"

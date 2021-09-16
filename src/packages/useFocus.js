@@ -15,19 +15,24 @@ export function useFocus(data, previewRef, callback) {
     );
     return { focus, unfocused };
   });
+
   const clearBlockFocus = () => {
     data.value.blocks.forEach((block) => (block.focus = false));
   };
+
+  // 点击容器让选中的元素失去焦点
   const containerMousedown = () => {
     if (previewRef.value) return;
     clearBlockFocus(); // 点击容器让选中的失去焦点
     selectIndex.value = -1;
   };
+
   const blockMousedown = (e, block, index) => {
     if (previewRef.value) return;
     e.preventDefault();
     e.stopPropagation();
     // block上我们规划一个属性 focus 获取焦点后就将focus变为true
+    // 按住shift键
     if (e.shiftKey) {
       if (focusData.value.focus.length <= 1) {
         block.focus = true; // 当前只有一个节点被选中时 摁住shift键也不会切换focus状态
@@ -36,13 +41,14 @@ export function useFocus(data, previewRef, callback) {
       }
     } else {
       if (!block.focus) {
-        clearBlockFocus();
-        block.focus = true; // 要清空其他人foucs属性
-      } // 当自己已经被选中了，在次点击时还是选中状态
+        clearBlockFocus(); // 要清空其他人的focus属性
+        block.focus = true;
+      }
     }
     selectIndex.value = index;
     callback(e);
   };
+
   return {
     blockMousedown,
     containerMousedown,

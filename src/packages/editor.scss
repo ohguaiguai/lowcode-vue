@@ -38,6 +38,7 @@
         padding: 4px;
       }
 
+      // ========================= 使物料不能使用 =========================
       &::after {
         content: '';
         position: absolute;
@@ -103,6 +104,7 @@
 .editor-block {
   position: absolute;
 
+  // 让物料不能被操作
   &::after {
     content: '';
     position: absolute;
@@ -113,6 +115,7 @@
   }
 }
 
+// 选中后出现边框
 .editor-block-focus {
   &::after {
     border: 3px dashed red;

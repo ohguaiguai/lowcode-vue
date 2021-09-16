@@ -20,10 +20,11 @@ export default defineComponent({
     onMounted(() => {
       let { offsetWidth, offsetHeight } = blockRef.value;
       if (props.block.alignCenter) {
-        // 说明是拖拽松手的时候才渲染的，其他的默认渲染到页面上的内容不需要居中
+        // 说明是从物料区拖拽到画布区松手的时候才渲染的，其他的默认渲染到页面上的内容不需要居中
+        // 元素中心落在鼠标位置，那么left的值就是拖拽结束时的 e.offsetX - offsetWidth / 2; 松手时已经将 e.offsetX 赋值给了 props.block.left
         props.block.left = props.block.left - offsetWidth / 2;
         props.block.top = props.block.top - offsetHeight / 2; // 原则上重新派发事件
-        props.block.alignCenter = false; // 让渲染后的结果才能去居中
+        props.block.alignCenter = false; // 下次渲染时不需要再居中
       }
       props.block.width = offsetWidth;
       props.block.height = offsetHeight;

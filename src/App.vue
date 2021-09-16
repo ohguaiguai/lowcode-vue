@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <!-- v-model="state" => :modelValue=state @update:modelValue=xxx -->
     <Editor v-model="state" :formData="formData"></Editor>
   </div>
 </template>
