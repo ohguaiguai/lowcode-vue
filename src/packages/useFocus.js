@@ -4,7 +4,7 @@ export function useFocus(data, previewRef, callback) {
 
   const selectIndex = ref(-1); // 表示没有任何一个被选中
 
-  // 最后选择的那一个
+  // 最后选择的那一个， 以此来创建辅助线
   const lastSelectBlock = computed(() => data.value.blocks[selectIndex.value]);
 
   const focusData = computed(() => {

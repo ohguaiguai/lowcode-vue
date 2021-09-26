@@ -3,15 +3,15 @@
 1. 使用 JsonSchema 描述物料的位置、样式
 2. 实现拖拽
 
-被拖拽元素：
+对被拖拽元素：
 
 - h5 属性 `draggable`
   - onDragstart
   - onDragend
 
-画布元素：
+对画布元素：
 
-绑定事件
+绑定事件 dragenter、dragover、dragleave、drop
 
 ```js
 const dragstart = (e, component) => {
@@ -44,3 +44,15 @@ const dragend = (e) => {
 - mousedown
 - mousemove
 - mouseup
+
+4. 辅助线的展示和吸附
+
+- 辅助线的几种情况
+
+  横
+  ![](https://assets.onlyadaydreamer.top/mark-x.png)
+  纵
+  ![](https://assets.onlyadaydreamer.top/mark-x.png)
+
+- 拖拽时根据辅助线来计算最终的位置以实现吸附效果
+  ![](https://assets.onlyadaydreamer.top/WX20210924-155255%402x.png)
