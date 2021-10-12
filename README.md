@@ -56,3 +56,6 @@ const dragend = (e) => {
 
 - 拖拽时根据辅助线来计算最终的位置以实现吸附效果
   ![](https://assets.onlyadaydreamer.top/WX20210924-155255%402x.png)
+
+5. 撤销、重做
+   使用栈
