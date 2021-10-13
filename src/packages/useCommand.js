@@ -13,25 +13,25 @@ export function useCommand(data, focusData) {
   };
   const registry = (command) => {
     state.commandArray.push(command);
+    // 命令名字对应执行函数
     state.commands[command.name] = (...args) => {
-      // 命令名字对应执行函数
       const { redo, undo } = command.execute(...args);
       redo();
+
+      // 不需要放到队列中直接跳过即可
       if (!command.pushQueue) {
-        // 不需要放到队列中直接跳过即可
         return;
       }
       let { queue, current } = state;
 
-      // 如果先放了 组件1 -》 组件2 => 组件3 =》 组件4 - -》 组件3
-      // 组件1 -> 组件3
+      // 组件1 -> 组件2 -> 组件3 -> 组件4 -> 撤回 -> 撤回 ->撤回 -> 组件3 => 组件1 -> 组件3
       if (queue.length > 0) {
         queue = queue.slice(0, current + 1); // 可能在放置的过程中有撤销操作，所以根据当前最新的current值来计算新的对了
         state.queue = queue;
       }
       queue.push({ redo, undo }); // 保存指令的前进后退
       state.current = current + 1;
-      console.log(queue);
+      console.log('queue', queue);
     };
   };
   // 注册我们需要的命令
@@ -243,12 +243,15 @@ export function useCommand(data, focusData) {
       let keyString = [];
       if (ctrlKey) keyString.push('ctrl');
       keyString.push(keyCodes[keyCode]);
+      // 组合按键
       keyString = keyString.join('+');
 
       state.commandArray.forEach(({ keyboard, name }) => {
         if (!keyboard) return; // 没有键盘事件
         if (keyboard === keyString) {
+          // 执行
           state.commands[name]();
+          // 阻止浏览器的一些行为
           e.preventDefault();
         }
       });
@@ -263,6 +266,8 @@ export function useCommand(data, focusData) {
     };
     return init;
   })();
+
+  // 刚初始化就调用init
   (() => {
     // 监听键盘事件
     state.destroyArray.push(keyboardEvent());
