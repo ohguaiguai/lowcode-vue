@@ -233,6 +233,8 @@ export function useCommand(data, focusData) {
       };
     }
   });
+
+  // 自执行函数
   const keyboardEvent = (() => {
     const keyCodes = {
       90: 'z',
