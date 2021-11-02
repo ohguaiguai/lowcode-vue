@@ -10,8 +10,8 @@ const DialogComponent = defineComponent({
       option: props.option, // 用户给组件的属性
       isShow: false
     });
+    // 让外界可以调用组件的方法
     ctx.expose({
-      // 让外界可以调用组件的方法
       showDialog(option) {
         state.option = option;
         state.isShow = true;
@@ -59,9 +59,11 @@ export function $dialog(option) {
     vm = createVNode(DialogComponent, { option }); // 将组件渲染成虚拟节点
 
     // 这里需要将el 渲染到我们的页面中
-    document.body.appendChild((render(vm, el), el)); // 渲染成真实节点扔到页面中
+    // render(vm, el) 返回的是 void
+    render(vm, el);
+    document.body.appendChild(el); // 渲染成真实节点扔到页面中
   }
   // 将组件渲染到这个el元素上
   let { showDialog } = vm.component.exposed;
-  showDialog(option); // 其他说明组件已经有了只需要显示出来即可
+  showDialog(option);
 }

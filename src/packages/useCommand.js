@@ -159,6 +159,7 @@ export function useCommand(data, focusData) {
       let after = (() => {
         // 置顶就是在所有的block中找到最大的
         let { focus, unfocused } = focusData.value;
+        // 从没有选中的block中找到最大的
         let maxZIndex = unfocused.reduce((prev, block) => {
           return Math.max(prev, block.zIndex);
         }, -Infinity);
@@ -168,7 +169,7 @@ export function useCommand(data, focusData) {
 
       return {
         undo: () => {
-          // 如果当前blocks 前后一致 则不会更新
+          // 如果当前 blocks引用前后一致则不会更新
           data.value = { ...data.value, blocks: before };
         },
         redo: () => {
@@ -190,15 +191,14 @@ export function useCommand(data, focusData) {
           unfocused.reduce((prev, block) => {
             return Math.min(prev, block.zIndex);
           }, Infinity) - 1;
-        // 不能直接 - 1 因为index 不能出现负值 负值就看不到组件了
 
+        // 不能直接 【- 1】 因为index 不能出现负值 负值组件就跑到面板下面，就看不到组件了
+        // 要让自己变成0，其他人都往上调
         if (minZIndex < 0) {
-          // 这里如果是赋值则让没选中的向上 ，自己变成0
           const dur = Math.abs(minZIndex);
           minZIndex = 0;
           unfocused.forEach((block) => (block.zIndex += dur));
         }
-        // 让当前选中的比最大的+1 即可
 
         focus.forEach((block) => (block.zIndex = minZIndex)); // 控制选中的值
         return data.value.blocks;

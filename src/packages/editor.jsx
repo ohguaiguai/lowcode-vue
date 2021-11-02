@@ -106,6 +106,7 @@ export default defineComponent({
       { label: '删除', icon: 'icon-delete', handler: () => commands.delete() },
 
       {
+        // 使用函数形式，可以保证按需使用
         label: () => (previewRef.value ? '编辑' : '预览'),
         icon: () => (previewRef.value ? 'icon-edit' : 'icon-browse'),
         handler: () => {
@@ -124,7 +125,7 @@ export default defineComponent({
     ];
 
     const onContextMenuBlock = (e, block) => {
-      e.preventDefault();
+      e.preventDefault(); // 阻止默认菜单
 
       $dropdown({
         el: e.target, // 以哪个元素为准产生一个dropdown
@@ -166,6 +167,7 @@ export default defineComponent({
                     footer: true,
                     onConfirm(text) {
                       text = JSON.parse(text);
+                      // data.value = JSON.parse(text); 这种方式无法保留历史记录
                       commands.updateBlock(text, block);
                     }
                   });

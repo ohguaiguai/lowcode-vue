@@ -25,8 +25,8 @@ export default defineComponent({
       editData: {}
     });
     const reset = () => {
+      // 没有选中组件， 说明要绑定的是容器的宽度和高度
       if (!props.block) {
-        // 说明要绑定的是容器的宽度和高度
         state.editData = deepcopy(props.data.container);
       } else {
         state.editData = deepcopy(props.block);
@@ -58,8 +58,7 @@ export default defineComponent({
       } else {
         let component = config.componentMap[props.block.key];
         if (component && component.props) {
-          // {text:{type:'xxx'},size:{},color:{}}
-          // {text:xxx,size:13px,color:#fff}
+          // component.props: {text:{type:'xxx'},size:{},color:{}}
           content.push(
             Object.entries(component.props).map(([propName, propConfig]) => {
               return (
