@@ -33,7 +33,6 @@ export default defineComponent({
     return () => {
       // 通过block的key属性直接获取对应的组件
       const component = config.componentMap[props.block.key];
-     console.log(component);
       // 获取render函数
       const RenderComponent = component.render({
         size: props.block.hasResize
@@ -43,7 +42,7 @@ export default defineComponent({
         // model: props.block.model  => {default:'username'}  => {modelValue: FormData.username,"onUpdate:modelValue": v=> FormData.username = v}
 
         model: Object.keys(component.model || {}).reduce((prev, modelName) => {
-     console.log(111, prev, modelName);
+
           let propName = props.block.model[modelName]; // 'username'
           prev[modelName] = {
             modelValue: props.formData[propName], // zfjg

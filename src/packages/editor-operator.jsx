@@ -7,7 +7,7 @@ import {
   ElColorPicker,
   ElSelect,
   ElOption,
-  ElInput
+  ElInput,
 } from 'element-plus';
 import deepcopy from 'deepcopy';
 import TableEditor from './table-editor';
@@ -17,12 +17,12 @@ export default defineComponent({
     block: { type: Object }, // 用户最后选中的元素
     data: { type: Object }, // 当前所有的数据
     updateContainer: { type: Function },
-    updateBlock: { type: Function }
+    updateBlock: { type: Function },
   },
   setup(props, ctx) {
     const config = inject('config'); // 组件的配置信息
     const state = reactive({
-      editData: {}
+      editData: {},
     });
     const reset = () => {
       // 没有选中组件， 说明要绑定的是容器的宽度和高度
@@ -47,10 +47,10 @@ export default defineComponent({
       if (!props.block) {
         content.push(
           <>
-            <ElFormItem label="容器宽度">
+            <ElFormItem label='容器宽度'>
               <ElInputNumber v-model={state.editData.width}></ElInputNumber>
             </ElFormItem>
-            <ElFormItem label="容器高度">
+            <ElFormItem label='容器高度'>
               <ElInputNumber v-model={state.editData.height}></ElInputNumber>
             </ElFormItem>
           </>
@@ -91,7 +91,7 @@ export default defineComponent({
                         propConfig={propConfig}
                         v-model={state.editData.props[propName]}
                       ></TableEditor>
-                    )
+                    ),
                   }[propConfig.type]()}
                 </ElFormItem>
               );
@@ -114,10 +114,10 @@ export default defineComponent({
       }
 
       return (
-        <ElForm labelPosition="top" style="padding:30px">
+        <ElForm labelPosition='top' style='padding:30px'>
           {content}
           <ElFormItem>
-            <ElButton type="primary" onClick={() => apply()}>
+            <ElButton type='primary' onClick={() => apply()}>
               应用
             </ElButton>
             <ElButton onClick={reset}>重置</ElButton>
@@ -125,5 +125,5 @@ export default defineComponent({
         </ElForm>
       );
     };
-  }
+  },
 });
